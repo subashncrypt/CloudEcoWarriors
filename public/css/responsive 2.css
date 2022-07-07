@@ -1,0 +1,415 @@
+@media only screen and (max-width: 500px) {
+.featured-talents-grid .col {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    padding: 10px;
+}
+
+}
+
+@media only screen and (max-width: 991px) and (min-width: 501px){
+.featured-talents-grid .col {
+    width: 50%;
+    max-width: 50%;
+    flex: 0 0 50%;
+    padding: 10px;
+}
+
+}
+
+@media only screen and (max-width: 767px) {
+.footer-main {
+    padding: 30px 0px;
+    text-align: center;
+}
+
+.footer-main p {
+    text-align: center;
+    margin-top: 10px;
+}
+.footer-post .file-uploads input {
+    float: left;
+    width: 33.33%;
+}
+.custom-file-input::before {
+    width: 96%;
+    padding: 7px 0px;
+}
+.footer-post .file-uploads {
+    width: 100%;
+}
+.registeration-div .left-box {
+    width: 100%;
+    padding-top: 0px;
+}
+.registeration-div .right-img {
+    width: 100%;
+    float: right;
+}
+.modal-popup .refel-top .right-text h3 {
+    font-weight: normal;
+    font-size: 16px;
+    padding-top: 5px;
+}
+.modal-popup h2 {
+    font-size: 16px;
+    line-height: 23px;
+ }
+.copy-link {
+    padding: 0px 40px 0px 0px;
+}
+
+.copy-link button {
+    right: 0px;
+}
+
+.copy-link input {
+    padding-right: 80px;
+}
+
+.battle-betails ul.nav.nav-tabs li.nav-item a {
+    border: 1px solid #E5E5E5;
+    font-size: 15px;
+   }
+   .leaderboard-box .leader-box-left {
+    width: 100%;
+    padding: 0px;
+}
+.lederborader-right {
+    width: 100%;
+}
+.betle-regtrationbtn button {
+    font-weight: bold;
+    font-size: 16px;
+}
+.pricebox {
+    width: 100%;
+    padding: 15px;
+    display: inline-block;
+}
+.pricebox ul {
+    display: inline-block;
+    padding: 0px;
+}
+.pricebox ul li img {
+    width: 60px;
+}
+.pricebox ul li {
+    margin-bottom: 20px;
+    font-size: 15px;
+    text-align: center;
+ }
+
+
+}
+
+
+@media only screen and (max-width: 991px) {
+.header nav.navbar.navbar-expand-lg{
+	padding: 10px 0px;
+}
+button.navbar-toggler {
+    background: #3e98eb;
+    width: 40px;
+    height: 35px;
+    outline: 0;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+button.navbar-toggler span {
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    display: block;
+    margin: 3px 0px;
+}
+header.header .container-fluid {
+    padding: 0px;
+}
+
+header.header .container-fluid a.navbar-brand {
+    padding-left: 15px;
+    padding-bottom: 10px;
+}
+
+header.header .container-fluid button.navbar-toggler {
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+header.header .container-fluid div#navbarSupportedContent {
+    padding: 15px;
+    background: #dddddd8c;
+}
+
+.header li.nav-item:nth-child(3)::before {
+    display: none;
+}
+
+header.header .container-fluid div#navbarSupportedContent ul li {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+button.login-btn {
+    margin-top: 10px;
+}
+.home-banner .home-slide-text {
+    padding: 0px 15px;
+}
+
+.home-banner .home-slide-text h1 {
+    margin-top: 20px;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.home-banner .btn {
+    margin-top: 10px;
+}
+
+.home-slide-img {
+    padding: 25px 15px;
+}
+section {
+    padding: 0px;
+}
+section.featured-talents .section-heading {
+    margin-top: 20px;
+}
+
+section.compete-rewards {
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.section-heading h2 {
+    font-size: 19px;
+}
+.header-mobile .hamburger {
+    background: #3e98eb;
+}
+
+form.form-header input.au-input.au-input--xl {
+    width: 100%;
+}
+
+.protfolio-text-home ul li {
+    padding: 10px 20px;
+}
+
+header.header-desktop .header-button {
+    justify-content: center;
+    margin-top: 5px;
+}
+
+header.header-desktop .header-button .noti-wrap {
+    float: left;
+    width: 50%;
+}
+
+.header-mobile {
+    position: fixed;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    background: #fff;
+    z-index: 99;
+}
+.row-bettle .col-md-6 {
+    padding: 0px 20px 30px;
+}
+
+.col-left-feed {
+    padding: 0px;
+}
+.col-left-feed .teleng-left-sec .file-uploads input::before {
+    background: #fff;
+    width: 95%;
+    padding: 7px;
+    display: inline-block;
+}
+.feautred-talent ul li {
+    display: inline-block;
+    width: 23%;
+    padding: 1px;
+}
+.ongoing-box{
+	padding: 0px;
+}
+.log-in-from .sign-up-form h2 {
+    font-size: 18px;
+}
+.sign-up-form {
+    padding: 20px 15px;
+}
+.login-tabs .container {
+    max-width: 100%;
+}
+.login-tabs .tab-content form {
+    padding: 0px 0px;
+}
+.login-tabs .tab-content {
+    background: #fff;
+    padding: 15px 10px ;
+}
+.login-tabs .tab-content .lgoin-screen .social-with {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lgoin-screen .or-id {
+    width: 100%;
+    overflow: hidden;
+}
+.lgoin-screen button {
+    width: 100%;
+    font-size: 13px;
+}
+
+
+
+}
+
+
+@media only screen and (max-width: 1024px) and (min-width: 768px){
+.mega-box-freme {
+    padding: 10px 0px;
+}
+.compete-rewards-inner h5 {
+    font-size: 17px;
+}
+}
+
+
+
+@media only screen and (max-width: 1024px) and (min-width: 992px){
+.featured-talents-grid .col {
+    background: #EFF3F6;
+    padding: 10px;
+    -ms-flex: 0 0 33.33%;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+}
+section {
+    padding: 30px;
+}
+.protfolio-text-home ul li {
+    display: inline-block;
+    padding: 0px 0px 0px 30px;
+}
+.row-bettle .col-md-6 {
+    padding: 0px 0px 10px;
+}
+.feautred-talent ul li {
+    display: inline-block;
+    width: 80px;
+    padding: 1px;
+}
+.col-left-feed .teleng-left-sec .file-uploads input::before {
+    background: #fff;
+    width: 96%;
+    padding: 7px 0px;
+}
+
+
+}
+
+
+
+@media only screen and (max-width: 991px) and (min-width: 768px){
+form.form-header input.au-input.au-input--xl {
+    width: auto;
+}
+header.header-desktop .header-button .noti-wrap {
+    width: auto !important;
+    padding-right: 40px;
+}
+header.header-desktop .header-wrap {
+    display: inline-block;
+    width: 100%;
+}
+
+.protfolio-text-home {
+    width: 50%;
+    float: left;
+}
+
+.header-button {
+    width: 50% !IMPORTANT;
+    float: left;
+    display: inline-block;
+}
+
+form.form-header {
+    margin-bottom: 20px;
+}
+
+}
+
+
+
+@media only screen and (max-width: 1199px) and (min-width: 1025px){
+section {
+    padding: 30px;
+}
+.featured-inner-left a {
+    display: flex;
+}
+.protfolio-text-home ul li {
+    display: inline-block;
+    padding: 0px 0px 0px 30px;
+}
+.row-bettle .col-md-6 {
+    padding: 0px 20px 20px;
+}
+.feautred-talent ul li {
+    display: inline-block;
+    width: 80px;
+    padding: 1px;
+}
+
+.col-left-feed .teleng-left-sec .file-uploads input::before {
+    background: #fff;
+    width: 98%;
+    padding: 7px 0px;
+}
+.ongoing-box {
+    width: 100%;
+    padding: 0px 10px;
+}
+
+
+}
+
+@media only screen and (max-width: 1300px) and (min-width: 1199px){
+
+.featured-inner-left a {
+    display: flex;
+}
+.col-left-feed .teleng-left-sec .file-uploads input::before {
+    background: #fff;
+    width: 98%;
+    padding: 7px 0px;
+}
+
+.feautred-talent ul li {
+    display: inline-block;
+    width: 80px;
+    padding: 1px;
+}
+
+
+}
+
+
+
+
+
+
