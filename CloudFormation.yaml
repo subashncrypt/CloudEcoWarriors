@@ -1,0 +1,224 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This template will
+Parameters:
+  BucketName:
+    Description: S3 bucket name
+    Type: String
+Mappings:
+  RegionMap:
+    us-east-1:
+      "AMI": "ami-0ed9277fb7eb570c9"
+    us-west-2:
+      "AMI": "ami-00f7e5c52c0f43726"
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      Tags:
+        - Key: Name
+          Value: Group31 VPC
+
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Group31 InternetGateway
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Group31 Public Subnet (AZ1)
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Group31 Public Routes
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+
+  WebServerSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Enable HTTP from 0.0.0.0/0
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPC
+
+  DynamoDBLoginTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: signup_data
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  DynamoEventRegistration:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      TableName: event_registration
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  LambdaConverter:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile:
+          Fn::Sub:
+            - |
+              import json
+              import boto3
+              import string
+
+              s3_client=boto3.client("s3")
+              dynamodb = boto3.resource('dynamodb')
+              table = dynamodb.Table('event_registration')
+
+              def lambda_handler(event, context):
+                # TODO implement
+                source_bucket_name = event['Records'][0]['s3']['bucket']['name']
+                file_name = event['Records'][0]['s3']['object']['key']
+                f_name = file_name[0:-4]
+                file_name2 = file_name.replace('%40','@')[0:-4]
+                link = "https://${s3Name}.s3.amazonaws.com/"+f_name
+                print(f_name)
+                response = table.update_item(
+                    Key={'email': file_name2},
+                    UpdateExpression = "set image_link = :r",
+                    ExpressionAttributeValues = {':r':link})
+
+                return response
+            - s3Name: !Ref BucketName
+      Description: Converts text and passes it to lambda
+      FunctionName: ProjectLambda
+      Handler: index.lambda_handler
+      Role: arn:aws:iam::759001813318:role/LabRole
+      Runtime: python3.9
+
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !GetAtt LambdaConverter.Arn
+      AccessControl: PublicRead
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  ProcessingLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !Ref LambdaConverter
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub arn:aws:s3:::${BucketName}
+
+  APIInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: APIInstanceProfile
+      Roles:
+        - LabRole
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMI]
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref APIInstanceProfile
+      SubnetId: !Ref PublicSubnet1
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Group31 EC2
+      UserData:
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            export S3_NAME=${s3name}
+            yum update -y
+            yum install -y git
+            mkdir /home/ec2-user/finalproject
+            cd /home/ec2-user/finalproject
+            git clone https://github.com/subashncrypt/group31-copy.git
+            yum install -y gcc-c++ make
+            yum install curl -y
+            curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
+            yum install -y nodejs
+            npm install dotenv
+            cd /home/ec2-user/finalproject/group31-copy
+            npm i
+            node index.js
+          - s3name: !Sub ${BucketName}
+Outputs:
+  PublicIp:
+    Description: EC2 Instance Public Ip
+    Value: !GetAtt EC2Instance.PublicIp
